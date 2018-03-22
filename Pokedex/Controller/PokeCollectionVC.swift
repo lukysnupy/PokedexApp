@@ -78,7 +78,14 @@ class PokeCollectionVC: UIViewController, UICollectionViewDelegate, UICollection
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        var pokemon: Pokemon!
+        if inSearchMode {
+            pokemon = filteredPokemons[indexPath.row]
+        } else {
+            pokemon = pokemons[indexPath.row]
+        }
         
+        performSegue(withIdentifier: "PokeDetailVC", sender: pokemon)
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -121,6 +128,16 @@ class PokeCollectionVC: UIViewController, UICollectionViewDelegate, UICollection
             let lower = searchBar.text!.lowercased()
             filteredPokemons = pokemons.filter({$0.name.range(of: lower) != nil})
             pokeCollection.reloadData()
+        }
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "PokeDetailVC" {
+            if let detailsVC = segue.destination as? PokeDetailVC {
+                if let pokemon = sender as? Pokemon {
+                    detailsVC.pokemon = pokemon
+                }
+            }
         }
     }
     
