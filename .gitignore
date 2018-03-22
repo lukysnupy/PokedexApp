@@ -1,3 +1,5 @@
 .DS_Store
 Pokedex.xcodeproj
 Pokedex.xcworkspace
+Pods/
+Podfile.lock
